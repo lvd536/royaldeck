@@ -1,7 +1,4 @@
-import { royaleAPI } from "@/utils/royaleAPI";
-
 export default async function Home() {
-    const cards = await royaleAPI.getCards();
     return (
         <div className="flex flex-col min-h-screen items-center">
             <h1 className="font-clash-bold text-2xl">Royale Deck</h1>

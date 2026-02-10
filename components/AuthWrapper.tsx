@@ -1,3 +1,3 @@
-export default function AuthWrapper() {
-    return <div>AuthWrapper</div>;
+export default function AuthWrapper({ children }: React.PropsWithChildren) {
+    return children;
 }

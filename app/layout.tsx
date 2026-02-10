@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import NavPanel from "@/components/NavPanel";
+import AuthWrapper from "@/components/AuthWrapper";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -41,8 +42,10 @@ export default function RootLayout({
             <body
                 className={`flex ${geistSans.variable} ${geistMono.variable} ${clashRegular.variable} ${clashBold.variable} antialiased`}
             >
-                <NavPanel />
-                <main>{children}</main>
+                <AuthWrapper>
+                    <NavPanel />
+                    <main className="w-full">{children}</main>
+                </AuthWrapper>
             </body>
         </html>
     );

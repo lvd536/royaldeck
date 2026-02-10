@@ -18,7 +18,7 @@ export default function NavPanel() {
             />
             <nav
                 id="navPanel"
-                className="flex flex-col gap-2 h-full pt-10 px-6 items-start font-clash-regular bg-surface rounded-r-lg transition-translate duration-300"
+                className="max-md:fixed left-0 top-0 flex max-md:w-50 flex-col gap-2 h-full pt-10 px-6 items-start font-clash-regular bg-surface rounded-r-lg transition-translate duration-300"
             >
                 <ClashButton
                     text="Home"
