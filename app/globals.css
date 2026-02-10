@@ -3,11 +3,19 @@
 :root {
     --background: #f9fafb;
     --foreground: #171717;
+    --surface: #ffffff;
+    --surface-2: #f3f4f6;
+    --custom-border: #e5e7eb;
 }
 
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
+
+    --color-surface: var(--surface);
+    --color-surface-2: var(--surface-2);
+    --color-custom-border: var(--custom-border);
+
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
     --font-clash-regular: var(--font-clash-regular);
@@ -18,6 +26,9 @@
     :root {
         --background: #0b0f19;
         --foreground: #ededed;
+        --surface: #111827;
+        --surface-2: #1f2937;
+        --custom-border: #273449;
     }
 }
 
@@ -25,4 +36,107 @@ body {
     background: var(--background);
     color: var(--foreground);
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.clash-btn {
+    width: 150px;
+    height: 50px;
+    margin: 5px auto;
+    cursor: pointer;
+    background: #000;
+    border-radius: 6px;
+    box-shadow: 0 4px 1px #301c09;
+    position: relative;
+}
+
+.layer-1 {
+    position: absolute;
+    inset: 3px;
+    border-radius: 5px;
+    box-shadow: 0 5px 0 var(--shadow);
+    background: var(--main);
+}
+
+.layer-2 {
+    position: absolute;
+    inset: 2px 1px 7px;
+    border-radius: 5px;
+    box-shadow: 0 -2px 3px var(--glow);
+}
+
+.layer-3 {
+    position: absolute;
+    inset: 0 3px;
+    border-radius: 5px;
+    background: var(--mid);
+    box-shadow: 0 2px 2px var(--deep);
+}
+
+.layer-3::before {
+    content: "";
+    position: absolute;
+    inset: 5px 3px auto;
+    height: 17px;
+    border-radius: 5px;
+    background: var(--light);
+}
+
+.label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-shadow: var(--text-shadow);
+}
+
+.shine {
+    position: absolute;
+    top: 6px;
+    right: 4px;
+    width: 4px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.clash-btn.yellow {
+    --main: #fda80d;
+    --mid: #ffbb2a;
+    --light: #ffd053;
+    --shadow: #af6b06;
+    --deep: #fe8906;
+    --glow: #ffdc33;
+    --text-shadow: -1px 0 #582e00, 1px 0 #582e00, 0 2px #582e00;
+}
+
+.clash-btn.green {
+    --main: #09cc48;
+    --mid: #30ed45;
+    --light: #50ff65;
+    --shadow: #0d8f23;
+    --deep: #25d039;
+    --glow: #60da61;
+    --text-shadow: -1px 0 #005f00, 1px 0 #005f00, 0 2px #005f00;
+}
+
+.clash-btn.red {
+    --main: #fc3632;
+    --mid: #fc4262;
+    --light: #ff6666;
+    --shadow: #9c1814;
+    --deep: #e42625;
+    --glow: #fe5970;
+    --text-shadow: -1px 0 #990000, 1px 0 #990000, 0 2px #990000;
+}
+
+.clash-btn.blue {
+    --main: #2199ff;
+    --mid: #4cadff;
+    --light: #67bcff;
+    --shadow: #004fa5;
+    --deep: #2181fc;
+    --glow: #3ebaff;
+    --text-shadow: -1px 0 #002f83, 1px 0 #002f83, 0 2px #002f83;
 }
