@@ -1,13 +1,13 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAFf0hfpxayei1huPdpEisPQEarK98Y9K8",
-  authDomain: "royaldeck-7d63a.firebaseapp.com",
-  projectId: "royaldeck-7d63a",
-  storageBucket: "royaldeck-7d63a.firebasestorage.app",
-  messagingSenderId: "518569059175",
-  appId: "1:518569059175:web:6f67308afb3339125c85c2",
-  measurementId: "G-1ENRL1PZDR"
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID,
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
