@@ -7,10 +7,10 @@ import Google from "@/public/google.png";
 export default function page() {
     return (
         <>
-            <div className="flex min-h-screen w-full max-w-3xl flex-col items-center bg-background">
-                <h1 className="font-clash-bold text-2xl">Royale Deck</h1>
-                <h1 className="font-clash-bold text-xl">Auth Page</h1>
-                <form className="flex flex-col gap-1 my-auto">
+            <div className="flex flex-col min-h-screen items-center justify-center bg-background">
+                <h1 className="font-clash-bold text-2xl z-2">Royale Deck</h1>
+                <h1 className="font-clash-bold text-xl z-2">Auth Page</h1>
+                <form className="flex flex-col gap-1 my-auto bg-background/50 p-2 rounded-lg z-2">
                     <label
                         htmlFor="emailInput"
                         className="text-xs font-clash-regular"
@@ -68,12 +68,12 @@ export default function page() {
             <Image
                 src={Wizard}
                 alt="Wizard"
-                className="fixed left-0 top-1/2 -translate-y-1/2 object-cover w-150 h-150"
+                className="w-50 h-50 sm:w-75 sm:h-75 xl:w-100 xl:h-100 2xl:w-150 2xl:h-150 fixed left-0 top-1/2 -translate-y-1/2 object-cover z-1"
             />
             <Image
                 src={Golem}
                 alt="Golem"
-                className="fixed right-0 top-1/2 -translate-y-1/2 object-cover w-150 h-150"
+                className="w-50 h-50 sm:w-75 sm:h-75 xl:w-100 xl:h-100 2xl:w-150 2xl:h-150 fixed right-0 top-1/2 -translate-y-1/2 object-cover z-1"
             />
         </>
     );
