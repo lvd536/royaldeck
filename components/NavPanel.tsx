@@ -11,9 +11,9 @@ export default function NavPanel() {
     return (
         <div>
             <Menu
-                className="fixed left-0 top-0 p-2 m-1 bg-surface-2 rounded-md z-2"
-                width={35}
-                height={35}
+                className="fixed left-0 top-0 p-1 m-1 bg-surface-2 rounded-md z-2"
+                width={30}
+                height={30}
                 onClick={handleOpen}
             />
             <nav
