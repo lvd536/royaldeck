@@ -1,6 +1,7 @@
 "use client";
 import { Menu } from "lucide-react";
 import ClashButton from "./ClashButton";
+import { browserRoutes } from "@/consts/browserRoutes";
 
 export default function NavPanel() {
     const handleOpen = () => {
@@ -19,11 +20,31 @@ export default function NavPanel() {
                 id="navPanel"
                 className="flex flex-col gap-2 h-full pt-10 px-6 items-start font-clash-regular bg-surface rounded-r-lg transition-translate duration-300"
             >
-                <ClashButton text="Home" variant="blue" />
-                <ClashButton text="Profile" variant="blue" />
-                <ClashButton text="Create deck" variant="blue" />
-                <ClashButton text="Top" variant="blue" />
-                <ClashButton text="Events" variant="blue" />
+                <ClashButton
+                    text="Home"
+                    variant="blue"
+                    href={browserRoutes.home.link}
+                />
+                <ClashButton
+                    text="Profile"
+                    variant="blue"
+                    href={browserRoutes.profile.link}
+                />
+                <ClashButton
+                    text="Create deck"
+                    variant="blue"
+                    href={browserRoutes.decks.creation.link}
+                />
+                <ClashButton
+                    text="Top"
+                    variant="blue"
+                    href={browserRoutes.top.link}
+                />
+                <ClashButton
+                    text="Events"
+                    variant="blue"
+                    href={browserRoutes.events.link}
+                />
             </nav>
         </div>
     );
