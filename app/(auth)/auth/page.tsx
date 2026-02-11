@@ -1,46 +1,37 @@
+"use client";
 import Image from "next/image";
 import Wizard from "@/public/Wizard_BG.png";
 import Golem from "@/public/Ice_Golem_BG.png";
-import { Mail, KeyRound } from "lucide-react";
 import Google from "@/public/google.png";
+import { useState } from "react";
+import SignIn from "@/components/Auth/SignIn";
+import SignUp from "@/components/Auth/SignUp";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "@/utils/database/firebase";
 
 export default function page() {
+    const [signIn, setSignIn] = useState<boolean>(false);
+
+    const toggleSignIn = () => setSignIn((prev) => !prev);
+
+    const handleGoogleAuth = () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error(
+                `Auth ends with error code: ${errorCode}: ${errorMessage}`,
+            );
+        });
+    };
+
     return (
         <>
             <div className="flex flex-col min-h-screen items-center justify-center bg-background">
                 <h1 className="font-clash-bold text-2xl z-2">Royale Deck</h1>
                 <h1 className="font-clash-bold text-xl z-2">Auth Page</h1>
-                <form className="flex flex-col gap-1 my-auto bg-background/50 p-2 rounded-lg z-2">
-                    <label
-                        htmlFor="emailInput"
-                        className="text-xs font-clash-regular"
-                    >
-                        Email
-                    </label>
-                    <div className="flex relative items-center gap-2 p-2 ring-stone-500 ring-1 rounded-lg focus-within:ring-stone-300 transition-ring duration-300">
-                        <Mail />
-                        <input
-                            type="text"
-                            name="emailInput"
-                            id="emailInput"
-                            className="w-full h-full outline-0 font-clash-regular text-sm pl-2 border-l border-l-stone-500"
-                        />
-                    </div>
-                    <label
-                        htmlFor="passwordInput"
-                        className="text-xs font-clash-regular mt-1"
-                    >
-                        Password
-                    </label>
-                    <div className="flex relative items-center gap-2 p-2 ring-stone-500 ring-1 rounded-lg focus-within:ring-stone-300 transition-ring duration-300">
-                        <KeyRound />
-                        <input
-                            type="password"
-                            name="passwordInput"
-                            id="passwordInput"
-                            className="w-full h-full outline-0 font-clash-regular text-sm pl-2 border-l border-l-stone-500"
-                        />
-                    </div>
+                <div className="flex flex-col items-center mt-2">
+                    {signIn ? <SignIn /> : <SignUp />}
                     <div className="flex flex-col gap-2 items-center mt-2 mx-auto">
                         <div className="flex gap-2 items-center">
                             <p className="w-25 h-px rounded-full bg-stone-800"></p>
@@ -49,21 +40,32 @@ export default function page() {
                             </p>
                             <p className="w-25 h-px rounded-full bg-stone-800"></p>
                         </div>
-                        <div>
-                            <div className="flex relative items-center gap-2 p-2 ring-stone-500 ring-1 rounded-lg">
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="flex relative items-center gap-2 p-2 ring-stone-500 ring-1 rounded-lg hover:ring-stone-300 transition-ring duration-300">
                                 <Image
                                     src={Google}
                                     alt="Google logo"
                                     width={20}
                                     height={20}
                                 />
-                                <p className="font-clash-regular text-sm pl-2 border-l border-l-stone-500 select-none">
+                                <p
+                                    className="font-clash-regular text-sm pl-2 border-l border-l-stone-500 select-none"
+                                    onClick={handleGoogleAuth}
+                                >
                                     Continue with Google
                                 </p>
                             </div>
+                            <p
+                                className="font-clash-regular text-xs text-foreground/70 select-none hover:text-stone-300 transition-text duration-300"
+                                onClick={toggleSignIn}
+                            >
+                                {signIn
+                                    ? "Already have an account? Sign Up"
+                                    : "Doesn't have an account? Sign In"}
+                            </p>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
             <Image
                 src={Wizard}

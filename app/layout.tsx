@@ -42,7 +42,7 @@ export default function RootLayout({
                 className={`flex ${geistSans.variable} ${geistMono.variable} ${clashRegular.variable} ${clashBold.variable} antialiased`}
             >
                 <NavPanel />
-                <main className="w-full">{children}</main>
+                <main className="w-full h-screen">{children}</main>
             </body>
         </html>
     );
