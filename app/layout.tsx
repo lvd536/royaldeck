@@ -4,6 +4,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import NavPanel from "@/components/NavPanel";
 import AuthWrapper from "@/components/AuthWrapper";
+import firebase from "firebase/compat/app";
+import { auth } from "@/utils/database/firebase";
+import { redirect } from "next/navigation";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",

@@ -103,12 +103,15 @@ export default function DeckCreation({ cards }: IProps) {
                                                 <Image
                                                     src={src}
                                                     alt={`card-${slotIndex}`}
-                                                    width={125}
-                                                    height={175}
+                                                    width={100}
+                                                    height={150}
+                                                    className="object-fit mb-2.5"
                                                 />
                                             ) : (
                                                 <Image
                                                     src={emptyCard}
+                                                    width={110}
+                                                    height={160}
                                                     alt="empty"
                                                 />
                                             )}
@@ -151,15 +154,22 @@ export default function DeckCreation({ cards }: IProps) {
 
                     <div className="fixed bottom-0 left-0 right-0 z-50 bg-surface-2 rounded-t-lg p-4 max-h-1/2 overflow-y-auto">
                         <div className="flex justify-between items-center mb-2">
-                            <strong>Select a card</strong>
-                            <button onClick={closeCardList}>Close</button>
+                            <strong className="font-clash-regular text-sm">
+                                Select a card
+                            </strong>
+                            <button
+                                onClick={closeCardList}
+                                className="font-clash-regular text-sm"
+                            >
+                                Close
+                            </button>
                         </div>
 
-                        <ul className="flex flex-wrap gap-2">
+                        <ul className="flex flex-wrap items-center justify-center gap-2">
                             {cards.items.map((i) => (
                                 <li
                                     key={i.id}
-                                    className="flex flex-col items-center"
+                                    className="flex gap-2 items-center"
                                 >
                                     <Image
                                         src={i.iconUrls.medium}
