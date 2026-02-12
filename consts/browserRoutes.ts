@@ -11,8 +11,6 @@ export const browserRoutes = {
         link: "/profile",
     },
     decks: {
-        name: "Decks",
-        link: DECKS_BASE,
         creation: {
             name: "Deck Creation",
             link: DECKS_BASE + "/create",
