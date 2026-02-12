@@ -36,16 +36,6 @@ export default function NavPanel() {
                     variant="blue"
                     href={browserRoutes.decks.creation.link}
                 />
-                <ClashButton
-                    text="Top"
-                    variant="blue"
-                    href={browserRoutes.top.link}
-                />
-                <ClashButton
-                    text="Events"
-                    variant="blue"
-                    href={browserRoutes.events.link}
-                />
             </nav>
         </div>
     );

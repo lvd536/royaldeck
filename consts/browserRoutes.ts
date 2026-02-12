@@ -4,7 +4,7 @@ const AUTH_BASE = "/auth";
 export const browserRoutes = {
     home: {
         name: "Home",
-        link: "/home",
+        link: "/",
     },
     profile: {
         name: "Profile",
@@ -21,17 +21,9 @@ export const browserRoutes = {
     auth: {
         name: "Auth Page",
         link: AUTH_BASE,
-        callback: {
-            name: "Auth Callback",
-            link: AUTH_BASE + "/callback",
+        emailVerification: {
+            name: "Email verification",
+            link: AUTH_BASE + "/emailVerification",
         },
-    },
-    top: {
-        name: "Top Decks",
-        link: "/top",
-    },
-    events: {
-        name: "Active Events",
-        link: "/events",
     },
 } as const;
