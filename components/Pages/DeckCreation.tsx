@@ -3,6 +3,7 @@ import { CardResponse } from "@varandas/clash-royale-api/lib/interfaces";
 import { useState } from "react";
 import Image from "next/image";
 import Decks from "../DeckCreation/Decks";
+import ClashButton from "../ClashButton";
 
 export interface ICustomDeck {
     id: number;
@@ -68,13 +69,48 @@ export default function DeckCreation({ cards }: IProps) {
         closeCardList();
     };
 
+    const handleDeleteDeck = (id: number) => {
+        if (decks.length > 1) {
+            const newDecks = decks.filter((deck) => deck.id !== id);
+            setDecks(newDecks);
+        } else setDecks([initialDeck]);
+    };
+
+    const handleAddDeck = () => {
+        const newDeckId = decks.at(-1)!.id + 1;
+        const newDecks = [
+            ...decks,
+            {
+                ...initialDeck,
+                id: newDeckId,
+                name: `Deck ${newDeckId}`,
+            },
+        ];
+        setDecks(newDecks);
+    };
+
+    const handleRefreshDecks = () => setDecks([initialDeck]);
+
     return (
         <div className="w-full flex flex-col max-md:px-2 mt-5">
+            <div className="flex font-clash-regular items-center justify-between gap-2 mb-4">
+                <ClashButton
+                    text="Add deck"
+                    variant="green"
+                    onClick={handleAddDeck}
+                />
+                <ClashButton
+                    text="Clear decks"
+                    variant="red"
+                    onClick={handleRefreshDecks}
+                />
+            </div>
             <Decks
                 decks={decks}
                 cards={cards}
                 currentCardKey={currentCardKey}
                 openCardList={openCardList}
+                handleDeleteDeck={handleDeleteDeck}
             />
             {isCardListOpen && (
                 <>

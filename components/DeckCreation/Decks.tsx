@@ -2,15 +2,16 @@ import Image from "next/image";
 import elixir from "@/public/elixir.png";
 import cycle from "@/public/cycle.png";
 import { ICustomDeck } from "../Pages/DeckCreation";
-import emptyCard from "@/public/empyCard.png";
 import { CardResponse } from "@varandas/clash-royale-api/lib/interfaces";
 import Cards from "./Cards";
+import { SendHorizonal, Trash } from "lucide-react";
 
 interface IProps {
     decks: ICustomDeck[];
     cards: CardResponse;
     currentCardKey: number | null;
     openCardList: (slotIndex: number, deckIndex: number) => void;
+    handleDeleteDeck: (id: number) => void;
 }
 
 export default function Decks({
@@ -18,6 +19,7 @@ export default function Decks({
     cards,
     currentCardKey,
     openCardList,
+    handleDeleteDeck,
 }: IProps) {
     const calcDeckElixir = (deckCards: Record<number, string>) => {
         return (
@@ -60,7 +62,7 @@ export default function Decks({
             .slice(0, 4);
     };
     return (
-        <ul className="w-full flex flex-col items-center justify-center mx-auto">
+        <ul className="w-full flex flex-col items-center justify-center mx-auto gap-2">
             {decks.map((deck, deckIndex) => (
                 <li
                     className="flex flex-col bg-surface-2 rounded-lg p-2"
@@ -73,26 +75,41 @@ export default function Decks({
                         deckIndex={deckIndex}
                         openCardList={openCardList}
                     />
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center font-clash-regular text-sm">
-                            <Image
-                                src={elixir}
-                                alt="elixir icon"
+                    <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center font-clash-regular text-sm">
+                                <Image
+                                    src={elixir}
+                                    alt="elixir icon"
+                                    width={35}
+                                    height={35}
+                                    className="w-10 h-auto"
+                                />
+                                <p>{calcDeckElixir(deck.cards)}</p>
+                            </div>
+                            <div className="flex items-center font-clash-regular text-sm gap-2">
+                                <Image
+                                    src={cycle}
+                                    alt="cycle icon"
+                                    width={25}
+                                    height={25}
+                                    className="w-5 h-auto"
+                                />
+                                <p>{calcCycleElixir(deck.cards)}</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <Trash
                                 width={35}
                                 height={35}
-                                className="w-10 h-auto"
+                                className="p-2 bg-surface rounded-md hover:bg-surface/70 transition-bg transition-text duration-300 text-red-400 hover:text-red-600"
+                                onClick={() => handleDeleteDeck(deck.id)}
                             />
-                            <p>{calcDeckElixir(deck.cards)}</p>
-                        </div>
-                        <div className="flex items-center font-clash-regular text-sm gap-2">
-                            <Image
-                                src={cycle}
-                                alt="cycle icon"
-                                width={25}
-                                height={25}
-                                className="w-5 h-auto"
+                            <SendHorizonal
+                                width={35}
+                                height={35}
+                                className="p-2 bg-surface rounded-md hover:bg-surface/70 transition-bg duration-300 text-green-500 hover:text-green-400"
                             />
-                            <p>{calcCycleElixir(deck.cards)}</p>
                         </div>
                     </div>
                 </li>
