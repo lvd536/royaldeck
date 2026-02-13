@@ -1,5 +1,5 @@
+import { auth } from "@/utils/database/firebase";
 import { sendDeck } from "@/utils/database/firebaseMethods";
-import { cards } from "@/utils/royaleAPI";
 import { CardResponse } from "@varandas/clash-royale-api/lib/interfaces";
 import { create } from "zustand";
 
@@ -192,12 +192,15 @@ export const useCardCreationStore = create<ICardCreationStore>()(
         handleRefreshDecks: () => get().setDecks([initialDeck]),
 
         handlePublishDeck: (deckId: string) => {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return;
+
             const decks = get().decks;
             const newDecks = decks.filter((d) => d.id !== deckId);
             const targetDeck = decks.filter((d) => d.id === deckId)[0];
 
             if (targetDeck) {
-                sendDeck(targetDeck);
+                sendDeck(userId, targetDeck);
                 if (newDecks.length < 1) {
                     get().setDecks([initialDeck]);
                 } else get().setDecks(newDecks);

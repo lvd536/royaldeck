@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/utils/database/firebase";
-import { useUserStore } from "@/stores/userStore";
 import { browserRoutes } from "@/consts/browserRoutes";
 
 export default function AuthLayout({
@@ -19,8 +18,10 @@ export default function AuthLayout({
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user && user.emailVerified) {
                 router.replace(browserRoutes.home.link);
+                window.cookieStore.set("uid", user.uid);
             } else if (user && !user.emailVerified) {
                 router.replace(browserRoutes.auth.emailVerification.link);
+                window.cookieStore.delete("uid");
             }
             setLoading(false);
         });

@@ -1,11 +1,19 @@
 import { User } from "firebase/auth";
 import { auth, db } from "./firebase";
-import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDocs,
+    query,
+    setDoc,
+    updateDoc,
+    where,
+} from "firebase/firestore";
 import { ICustomDeck } from "@/stores/cardCreationStore";
 
-export async function sendDeck(deck: ICustomDeck) {
-    const userId = auth.currentUser?.uid;
-
+export async function sendDeck(userId: string | undefined, deck: ICustomDeck) {
     if (!userId) return;
 
     await addDoc(collection(db, "decks"), {
@@ -18,29 +26,70 @@ export async function sendDeck(deck: ICustomDeck) {
     });
 }
 
-export async function publishDeck(deckId: string) {
-    const userId = auth.currentUser?.uid;
-
+export async function publishDeck(userId: string | undefined, deckId: string) {
     if (!userId) return;
 
-    const docRef = doc(db, "decks", deckId);
+    const decksRef = doc(db, "decks", deckId);
 
-    await updateDoc(docRef, {
+    await updateDoc(decksRef, {
         isPublished: true,
     });
 }
 
-export async function editDeck(deckId: string, deck: ICustomDeck) {
-    const userId = auth.currentUser?.uid;
-
+export async function editDeck(
+    userId: string | undefined,
+    deckId: string,
+    deck: ICustomDeck,
+) {
     if (!userId) return;
 
-    const docRef = doc(db, "decks", deckId);
+    const decksRef = doc(db, "decks", deckId);
 
-    await setDoc(docRef, {
+    await setDoc(decksRef, {
         name: deck.name,
         cycle: deck.cycle,
         elixir: deck.elixir,
         cards: deck.cards,
     });
+}
+
+export async function getUserDecks(userId: string | undefined) {
+    if (!userId) return;
+
+    const decksRef = collection(db, "decks");
+
+    const q = query(decksRef, where("uid", "==", userId));
+
+    const decksQuerySnapshot = await getDocs(q);
+
+    return decksQuerySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    })) as ICustomDeck[];
+}
+
+export async function getPublishedDecks(userId: string | undefined) {
+    if (!userId) return;
+
+    const decksRef = collection(db, "decks");
+
+    const q = query(decksRef, where("isPublished", "==", true));
+
+    const decksQuerySnapshot = await getDocs(q);
+
+    return decksQuerySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+    })) as ICustomDeck[];
+}
+
+export async function deleteUserDeck(
+    userId: string | undefined,
+    deckId: string,
+) {
+    if (!userId) return;
+
+    const deckRef = doc(db, "decks", deckId);
+
+    await deleteDoc(deckRef);
 }

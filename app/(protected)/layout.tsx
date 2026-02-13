@@ -20,11 +20,14 @@ export default function ProtectedLayout({
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user) {
                 router.replace("/auth");
+                window.cookieStore.delete("uid");
             } else if (!user.emailVerified) {
                 router.replace("/auth/emailVerification");
+                window.cookieStore.delete("uid");
             } else {
                 setAuthorized(true);
                 setUser(user);
+                window.cookieStore.set("uid", user.uid);
             }
             setLoading(false);
         });
