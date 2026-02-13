@@ -1,145 +1,22 @@
 "use client";
-import { CardResponse } from "@varandas/clash-royale-api/lib/interfaces";
-import { useState } from "react";
 import Image from "next/image";
 import Decks from "../DeckCreation/Decks";
 import ClashButton from "../ClashButton";
-
-export interface ICustomDeck {
-    id: number;
-    name: string;
-    elixir: number;
-    cycle: number;
-    cards: Record<number, string>;
-}
+import { useCardCreationStore } from "@/stores/cardCreationStore";
+import { CardResponse } from "@varandas/clash-royale-api/lib/interfaces";
 
 interface IProps {
     cards: CardResponse;
 }
 
-const initialDeck: ICustomDeck = {
-    id: 0,
-    name: "Deck 0",
-    elixir: 0,
-    cycle: 0,
-    cards: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "", 6: "", 7: "" },
-};
-
 export default function DeckCreation({ cards }: IProps) {
-    const [decks, setDecks] = useState<ICustomDeck[]>([initialDeck]);
-    const [currentCardKey, setCurrentCardKey] = useState<number | null>(null);
-    const [currentDeckIndex, setCurrentDeckIndex] = useState<number | null>(
-        null,
-    );
-    const [isCardListOpen, setIsCardListOpen] = useState(false);
-
-    if (!cards || !cards.items) {
-        return <div>Cards not provided</div>;
-    }
-
-    const openCardList = (slotIndex: number, deckIndex: number) => {
-        setCurrentCardKey(slotIndex);
-        setCurrentDeckIndex(deckIndex);
-        setIsCardListOpen(true);
-    };
-
-    const closeCardList = () => {
-        setIsCardListOpen(false);
-        setCurrentCardKey(null);
-        setCurrentDeckIndex(null);
-    };
-
-    const handleAddCard = (imageUrl: string) => {
-        if (currentCardKey === null || currentDeckIndex === null) {
-            console.warn("No slot or deck selected");
-            return;
-        }
-
-        const newDecks = decks.map((d) => ({
-            ...d,
-            cards: { ...d.cards },
-        }));
-
-        if (currentDeckIndex < 0 || currentDeckIndex >= newDecks.length) {
-            console.error("deck index out of range", currentDeckIndex);
-            return;
-        }
-
-        const currentDeck = newDecks[currentDeckIndex];
-
-        currentDeck.cards[currentCardKey] = imageUrl;
-        currentDeck.elixir = calcDeckElixir(currentDeck.cards);
-        currentDeck.cycle = calcCycleElixir(currentDeck.cards);
-
-        setDecks(newDecks);
-
-        closeCardList();
-    };
-
-    const calcDeckElixir = (deckCards: Record<number, string>) => {
-        return Number(
-            (
-                Object.values(deckCards).reduce((sum, value) => {
-                    const card = cards.items.find(
-                        (i) =>
-                            i.iconUrls.medium === value ||
-                            i.iconUrls.evolutionMedium === value,
-                    );
-                    return sum + (Number(card?.elixirCost) || 0);
-                }, 0) / 8
-            ).toFixed(1),
-        );
-    };
-    const calcCycleElixir = (deckCards: Record<number, string>) => {
-        return getLowCostCards(deckCards).reduce((acc, [key, url]) => {
-            const cardInfo = cards.items.find(
-                (i) =>
-                    i.iconUrls.medium === url ||
-                    i.iconUrls.evolutionMedium === url,
-            );
-            const cost = cardInfo?.elixirCost || 0;
-
-            return acc + cost;
-        }, 0);
-    };
-    const getLowCostCards = (deckCards: Record<number, string>) => {
-        const costMap = new Map(
-            cards.items.flatMap((i) => [
-                [i.iconUrls.medium, i.elixirCost],
-                [i.iconUrls.evolutionMedium, i.elixirCost],
-            ]),
-        );
-
-        return Object.entries(deckCards)
-            .sort(([, urlA], [, urlB]) => {
-                const costA = costMap.get(urlA) || 99;
-                const costB = costMap.get(urlB) || 99;
-                return costA - costB;
-            })
-            .slice(0, 4);
-    };
-
-    const handleDeleteDeck = (id: number) => {
-        if (decks.length > 1) {
-            const newDecks = decks.filter((deck) => deck.id !== id);
-            setDecks(newDecks);
-        } else setDecks([initialDeck]);
-    };
-
-    const handleAddDeck = () => {
-        const newDeckId = decks.at(-1)!.id + 1;
-        const newDecks = [
-            ...decks,
-            {
-                ...initialDeck,
-                id: newDeckId,
-                name: `Deck ${newDeckId}`,
-            },
-        ];
-        setDecks(newDecks);
-    };
-
-    const handleRefreshDecks = () => setDecks([initialDeck]);
+    const {
+        handleAddDeck,
+        handleRefreshDecks,
+        handleAddCard,
+        isCardListOpen,
+        closeCardList,
+    } = useCardCreationStore();
 
     return (
         <div className="w-full flex flex-col max-md:px-2 mt-5">
@@ -155,12 +32,7 @@ export default function DeckCreation({ cards }: IProps) {
                     onClick={handleRefreshDecks}
                 />
             </div>
-            <Decks
-                decks={decks}
-                currentCardKey={currentCardKey}
-                openCardList={openCardList}
-                handleDeleteDeck={handleDeleteDeck}
-            />
+            <Decks />
             {isCardListOpen && (
                 <>
                     <div
@@ -196,7 +68,10 @@ export default function DeckCreation({ cards }: IProps) {
                                         style={{ cursor: "pointer" }}
                                         className="w-20 h-auto"
                                         onClick={() =>
-                                            handleAddCard(i.iconUrls.medium)
+                                            handleAddCard(
+                                                cards,
+                                                i.iconUrls.medium,
+                                            )
                                         }
                                     />
                                     {i.iconUrls.evolutionMedium && (
@@ -209,6 +84,7 @@ export default function DeckCreation({ cards }: IProps) {
                                             className="w-20 h-auto"
                                             onClick={() =>
                                                 handleAddCard(
+                                                    cards,
                                                     i.iconUrls.evolutionMedium!,
                                                 )
                                             }

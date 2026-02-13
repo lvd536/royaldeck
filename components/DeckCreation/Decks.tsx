@@ -1,23 +1,13 @@
 import Image from "next/image";
 import elixir from "@/public/elixir.png";
 import cycle from "@/public/cycle.png";
-import { ICustomDeck } from "../Pages/DeckCreation";
 import Cards from "./Cards";
 import { SendHorizonal, Trash } from "lucide-react";
+import { useCardCreationStore } from "@/stores/cardCreationStore";
 
-interface IProps {
-    decks: ICustomDeck[];
-    currentCardKey: number | null;
-    openCardList: (slotIndex: number, deckIndex: number) => void;
-    handleDeleteDeck: (id: number) => void;
-}
-
-export default function Decks({
-    decks,
-    currentCardKey,
-    openCardList,
-    handleDeleteDeck,
-}: IProps) {
+export default function Decks() {
+    const { decks, handleDeleteDeck, currentCardKey, openCardList } =
+        useCardCreationStore();
     return (
         <ul className="w-full flex flex-col items-center justify-center mx-auto gap-2">
             {decks.map((deck, deckIndex) => (

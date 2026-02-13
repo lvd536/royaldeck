@@ -19,7 +19,6 @@ interface ICustomDeck {
 }
 
 interface ICardCreationStore {
-    cards: CardResponse;
     decks: ICustomDeck[];
     currentCardKey: number | null;
     currentDeckIndex: number | null;
@@ -32,10 +31,19 @@ interface ICardCreationStore {
 
     openCardList: (slotIndex: number, deckIndex: number) => void;
     closeCardList: () => void;
-    handleAddCard: (imageUrl: string) => void;
-    calcDeckElixir: (deckCards: Record<number, string>) => number;
-    calcCycleElixir: (deckCards: Record<number, string>) => number;
-    getLowCostCards: (deckCards: Record<number, string>) => [string, string][];
+    handleAddCard: (cards: CardResponse, imageUrl: string) => void;
+    calcDeckElixir: (
+        cards: CardResponse,
+        deckCards: Record<number, string>,
+    ) => number;
+    calcCycleElixir: (
+        cards: CardResponse,
+        deckCards: Record<number, string>,
+    ) => number;
+    getLowCostCards: (
+        cards: CardResponse,
+        deckCards: Record<number, string>,
+    ) => [string, string][];
     handleDeleteDeck: (id: number) => void;
     handleAddDeck: () => void;
     handleRefreshDecks: () => void;
@@ -43,7 +51,6 @@ interface ICardCreationStore {
 
 export const useCardCreationStore = create<ICardCreationStore>()(
     (set, get) => ({
-        cards: cards,
         decks: [initialDeck],
         currentCardKey: null,
         currentDeckIndex: null,
@@ -69,7 +76,7 @@ export const useCardCreationStore = create<ICardCreationStore>()(
             get().setCurrentDeckIndex(null);
         },
 
-        handleAddCard: (imageUrl: string) => {
+        handleAddCard: (cards: CardResponse, imageUrl: string) => {
             if (
                 get().currentCardKey === null ||
                 get().currentDeckIndex === null
@@ -97,19 +104,22 @@ export const useCardCreationStore = create<ICardCreationStore>()(
             const currentDeck = newDecks[get().currentDeckIndex!];
 
             currentDeck.cards[get().currentCardKey!] = imageUrl;
-            currentDeck.elixir = get().calcDeckElixir(currentDeck.cards);
-            currentDeck.cycle = get().calcCycleElixir(currentDeck.cards);
+            currentDeck.elixir = get().calcDeckElixir(cards, currentDeck.cards);
+            currentDeck.cycle = get().calcCycleElixir(cards, currentDeck.cards);
 
             get().setDecks(newDecks);
 
             get().closeCardList();
         },
 
-        calcDeckElixir: (deckCards: Record<number, string>) => {
+        calcDeckElixir: (
+            cards: CardResponse,
+            deckCards: Record<number, string>,
+        ) => {
             return Number(
                 (
                     Object.values(deckCards).reduce((sum, value) => {
-                        const card = get().cards.items.find(
+                        const card = cards.items.find(
                             (i) =>
                                 i.iconUrls.medium === value ||
                                 i.iconUrls.evolutionMedium === value,
@@ -119,11 +129,14 @@ export const useCardCreationStore = create<ICardCreationStore>()(
                 ).toFixed(1),
             );
         },
-        calcCycleElixir: (deckCards: Record<number, string>) => {
+        calcCycleElixir: (
+            cards: CardResponse,
+            deckCards: Record<number, string>,
+        ) => {
             return get()
-                .getLowCostCards(deckCards)
+                .getLowCostCards(cards, deckCards)
                 .reduce((acc, [_, url]) => {
-                    const cardInfo = get().cards.items.find(
+                    const cardInfo = cards.items.find(
                         (i) =>
                             i.iconUrls.medium === url ||
                             i.iconUrls.evolutionMedium === url,
@@ -133,22 +146,25 @@ export const useCardCreationStore = create<ICardCreationStore>()(
                     return acc + cost;
                 }, 0);
         },
-        getLowCostCards: (deckCards: Record<number, string>) => {
+        getLowCostCards: (
+            cards: CardResponse,
+            deckCards: Record<number, string>,
+        ) => {
             const costMap = new Map(
-                get().cards.items.flatMap((i) => [
+                cards.items.flatMap((i) => [
                     [i.iconUrls.medium, i.elixirCost],
                     [i.iconUrls.evolutionMedium, i.elixirCost],
                 ]),
             );
 
-            const test =  Object.entries(deckCards)
+            const test = Object.entries(deckCards)
                 .sort(([, urlA], [, urlB]) => {
                     const costA = costMap.get(urlA) || 99;
                     const costB = costMap.get(urlB) || 99;
                     return costA - costB;
                 })
                 .slice(0, 4);
-            return test
+            return test;
         },
 
         handleDeleteDeck: (id: number) => {
