@@ -157,7 +157,6 @@ export default function DeckCreation({ cards }: IProps) {
             </div>
             <Decks
                 decks={decks}
-                cards={cards}
                 currentCardKey={currentCardKey}
                 openCardList={openCardList}
                 handleDeleteDeck={handleDeleteDeck}

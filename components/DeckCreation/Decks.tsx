@@ -2,13 +2,11 @@ import Image from "next/image";
 import elixir from "@/public/elixir.png";
 import cycle from "@/public/cycle.png";
 import { ICustomDeck } from "../Pages/DeckCreation";
-import { CardResponse } from "@varandas/clash-royale-api/lib/interfaces";
 import Cards from "./Cards";
 import { SendHorizonal, Trash } from "lucide-react";
 
 interface IProps {
     decks: ICustomDeck[];
-    cards: CardResponse;
     currentCardKey: number | null;
     openCardList: (slotIndex: number, deckIndex: number) => void;
     handleDeleteDeck: (id: number) => void;
@@ -16,7 +14,6 @@ interface IProps {
 
 export default function Decks({
     decks,
-    cards,
     currentCardKey,
     openCardList,
     handleDeleteDeck,
