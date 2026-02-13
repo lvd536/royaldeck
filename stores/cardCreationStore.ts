@@ -10,7 +10,7 @@ const initialDeck: ICustomDeck = {
     cards: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "", 6: "", 7: "" },
 };
 
-interface ICustomDeck {
+export interface ICustomDeck {
     id: number;
     name: string;
     elixir: number;
