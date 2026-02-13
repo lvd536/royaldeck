@@ -21,46 +21,6 @@ export default function Decks({
     openCardList,
     handleDeleteDeck,
 }: IProps) {
-    const calcDeckElixir = (deckCards: Record<number, string>) => {
-        return (
-            Object.values(deckCards).reduce((sum, value) => {
-                const card = cards.items.find(
-                    (i) =>
-                        i.iconUrls.medium === value ||
-                        i.iconUrls.evolutionMedium === value,
-                );
-                return sum + (Number(card?.elixirCost) || 0);
-            }, 0) / 8
-        ).toFixed(1);
-    };
-    const calcCycleElixir = (deckCards: Record<number, string>) => {
-        return getLowCostCards(deckCards).reduce((acc, [key, url]) => {
-            const cardInfo = cards.items.find(
-                (i) =>
-                    i.iconUrls.medium === url ||
-                    i.iconUrls.evolutionMedium === url,
-            );
-            const cost = cardInfo?.elixirCost || 0;
-
-            return acc + cost;
-        }, 0);
-    };
-    const getLowCostCards = (deckCards: Record<number, string>) => {
-        const costMap = new Map(
-            cards.items.flatMap((i) => [
-                [i.iconUrls.medium, i.elixirCost],
-                [i.iconUrls.evolutionMedium, i.elixirCost],
-            ]),
-        );
-
-        return Object.entries(deckCards)
-            .sort(([, urlA], [, urlB]) => {
-                const costA = costMap.get(urlA) || 99;
-                const costB = costMap.get(urlB) || 99;
-                return costA - costB;
-            })
-            .slice(0, 4);
-    };
     return (
         <ul className="w-full flex flex-col items-center justify-center mx-auto gap-2">
             {decks.map((deck, deckIndex) => (
@@ -85,7 +45,7 @@ export default function Decks({
                                     height={35}
                                     className="w-10 h-auto"
                                 />
-                                <p>{calcDeckElixir(deck.cards)}</p>
+                                <p>{deck.elixir}</p>
                             </div>
                             <div className="flex items-center font-clash-regular text-sm gap-2">
                                 <Image
@@ -95,7 +55,7 @@ export default function Decks({
                                     height={25}
                                     className="w-5 h-auto"
                                 />
-                                <p>{calcCycleElixir(deck.cards)}</p>
+                                <p>{deck.cycle}</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
