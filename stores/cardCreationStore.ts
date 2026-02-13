@@ -1,9 +1,10 @@
+import { sendDeck } from "@/utils/database/firebaseMethods";
 import { cards } from "@/utils/royaleAPI";
 import { CardResponse } from "@varandas/clash-royale-api/lib/interfaces";
 import { create } from "zustand";
 
 const initialDeck: ICustomDeck = {
-    id: 0,
+    id: "0",
     name: "Deck 0",
     elixir: 0,
     cycle: 0,
@@ -11,7 +12,7 @@ const initialDeck: ICustomDeck = {
 };
 
 export interface ICustomDeck {
-    id: number;
+    id: string;
     name: string;
     elixir: number;
     cycle: number;
@@ -44,9 +45,10 @@ interface ICardCreationStore {
         cards: CardResponse,
         deckCards: Record<number, string>,
     ) => [string, string][];
-    handleDeleteDeck: (id: number) => void;
+    handleDeleteDeck: (id: string) => void;
     handleAddDeck: () => void;
     handleRefreshDecks: () => void;
+    handlePublishDeck: (deckId: string) => void;
 }
 
 export const useCardCreationStore = create<ICardCreationStore>()(
@@ -167,7 +169,7 @@ export const useCardCreationStore = create<ICardCreationStore>()(
             return test;
         },
 
-        handleDeleteDeck: (id: number) => {
+        handleDeleteDeck: (id: string) => {
             if (get().decks.length > 1) {
                 const newDecks = get().decks.filter((deck) => deck.id !== id);
                 get().setDecks(newDecks);
@@ -175,12 +177,12 @@ export const useCardCreationStore = create<ICardCreationStore>()(
         },
 
         handleAddDeck: () => {
-            const newDeckId = get().decks.at(-1)!.id + 1;
+            const newDeckId = Number(get().decks.at(-1)!.id) + 1;
             const newDecks = [
                 ...get().decks,
                 {
                     ...initialDeck,
-                    id: newDeckId,
+                    id: newDeckId.toString(),
                     name: `Deck ${newDeckId}`,
                 },
             ];
@@ -188,5 +190,18 @@ export const useCardCreationStore = create<ICardCreationStore>()(
         },
 
         handleRefreshDecks: () => get().setDecks([initialDeck]),
+
+        handlePublishDeck: (deckId: string) => {
+            const decks = get().decks;
+            const newDecks = decks.filter((d) => d.id !== deckId);
+            const targetDeck = decks.filter((d) => d.id === deckId)[0];
+
+            if (targetDeck) {
+                sendDeck(targetDeck);
+                if (newDecks.length < 1) {
+                    get().setDecks([initialDeck]);
+                } else get().setDecks(newDecks);
+            }
+        },
     }),
 );

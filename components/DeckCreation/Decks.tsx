@@ -6,8 +6,13 @@ import { SendHorizonal, Trash } from "lucide-react";
 import { useCardCreationStore } from "@/stores/cardCreationStore";
 
 export default function Decks() {
-    const { decks, handleDeleteDeck, currentCardKey, openCardList } =
-        useCardCreationStore();
+    const {
+        decks,
+        handleDeleteDeck,
+        handlePublishDeck,
+        currentCardKey,
+        openCardList,
+    } = useCardCreationStore();
     return (
         <ul className="w-full flex flex-col items-center justify-center mx-auto gap-2">
             {decks.map((deck, deckIndex) => (
@@ -56,6 +61,7 @@ export default function Decks() {
                                 width={35}
                                 height={35}
                                 className="p-2 bg-surface rounded-md hover:bg-surface/70 transition-bg duration-300 text-green-500 hover:text-green-400"
+                                onClick={() => handlePublishDeck(deck.id)}
                             />
                         </div>
                     </div>
