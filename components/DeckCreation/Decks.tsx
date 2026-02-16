@@ -8,11 +8,13 @@ import { useCardCreationStore } from "@/stores/cardCreationStore";
 export default function Decks() {
     const {
         decks,
+        handleChangeName,
         handleDeleteDeck,
         handlePublishDeck,
         currentCardKey,
         openCardList,
     } = useCardCreationStore();
+
     return (
         <ul className="w-full flex flex-col items-center justify-center mx-auto gap-2">
             {decks.map((deck, deckIndex) => (
@@ -20,7 +22,14 @@ export default function Decks() {
                     className="flex flex-col bg-surface-2 rounded-lg p-2"
                     key={deck.id ?? deckIndex}
                 >
-                    <h1 className="font-clash-regular">{deck.name}</h1>
+                    <input
+                        type="text"
+                        className="font-clash-regular outline-0"
+                        value={deck.name}
+                        onChange={(e) =>
+                            handleChangeName(e.target.value, deckIndex)
+                        }
+                    />
                     <Cards
                         cards={deck.cards}
                         currentCardKey={currentCardKey}

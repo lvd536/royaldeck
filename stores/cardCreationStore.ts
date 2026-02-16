@@ -49,6 +49,7 @@ interface ICardCreationStore {
     handleAddDeck: () => void;
     handleRefreshDecks: () => void;
     handlePublishDeck: (deckId: string) => void;
+    handleChangeName: (deckName: string, deckIndex: number) => void;
 }
 
 export const useCardCreationStore = create<ICardCreationStore>()(
@@ -112,6 +113,30 @@ export const useCardCreationStore = create<ICardCreationStore>()(
             get().setDecks(newDecks);
 
             get().closeCardList();
+        },
+
+        handleChangeName: (deckName: string, deckIndex: number) => {
+            const newDecks = get().decks.map((d) => ({
+                ...d,
+                cards: { ...d.cards },
+            }));
+
+            if (
+                deckIndex < 0 ||
+                deckIndex >= newDecks.length
+            ) {
+                console.error(
+                    "deck index out of range",
+                    get().currentDeckIndex,
+                );
+                return;
+            }
+
+            const currentDeck = newDecks[deckIndex];
+
+            currentDeck.name = deckName;
+
+            get().setDecks(newDecks);
         },
 
         calcDeckElixir: (
