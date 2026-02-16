@@ -1,6 +1,12 @@
+import DeckList from "@/components/Home/DeckList";
+import { getPublishedDecks } from "@/utils/database/firebaseMethods";
 import { Plus } from "lucide-react";
+import { cookies } from "next/headers";
 
 export default async function Home() {
+    const cookieStore = await cookies();
+    const userId = cookieStore.get("uid")?.value;
+    const decks = await getPublishedDecks(userId);
     return (
         <div className="flex flex-col w-full items-center mt-2 px-[10%] md:px-[20%] gap-2">
             <div className="flex flex-col gap-2 w-full p-2 bg-surface-2 rounded-lg">
@@ -17,7 +23,7 @@ export default async function Home() {
                     />
                 </div>
             </div>
-            <ul className="flex flex-col gap-2 w-full p-2 bg-surface-2 rounded-lg"></ul>
+            <DeckList userDecks={decks} />
         </div>
     );
 }

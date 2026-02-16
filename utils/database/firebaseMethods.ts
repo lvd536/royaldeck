@@ -1,5 +1,4 @@
-import { User } from "firebase/auth";
-import { auth, db } from "./firebase";
+import { db } from "./firebase";
 import {
     addDoc,
     collection,
@@ -21,18 +20,23 @@ export async function sendDeck(userId: string | undefined, deck: ICustomDeck) {
         cycle: deck.cycle,
         elixir: deck.elixir,
         cards: deck.cards,
-        isPublished: false,
+        isPublished: deck.isPublished,
         uid: userId,
     });
 }
 
-export async function publishDeck(userId: string | undefined, deckId: string) {
+export async function publishDeck(
+    userId: string | undefined,
+    deckId: string,
+    description: string,
+) {
     if (!userId) return;
 
     const decksRef = doc(db, "decks", deckId);
 
     await updateDoc(decksRef, {
         isPublished: true,
+        description,
     });
 }
 
@@ -50,6 +54,7 @@ export async function editDeck(
         cycle: deck.cycle,
         elixir: deck.elixir,
         cards: deck.cards,
+        isPublished: deck.isPublished,
     });
 }
 

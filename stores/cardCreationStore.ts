@@ -9,6 +9,7 @@ const initialDeck: ICustomDeck = {
     elixir: 0,
     cycle: 0,
     cards: { 0: "", 1: "", 2: "", 3: "", 4: "", 5: "", 6: "", 7: "" },
+    isPublished: false,
 };
 
 export interface ICustomDeck {
@@ -17,6 +18,8 @@ export interface ICustomDeck {
     elixir: number;
     cycle: number;
     cards: Record<number, string>;
+    isPublished: boolean;
+    description?: string;
 }
 
 interface ICardCreationStore {
@@ -121,10 +124,7 @@ export const useCardCreationStore = create<ICardCreationStore>()(
                 cards: { ...d.cards },
             }));
 
-            if (
-                deckIndex < 0 ||
-                deckIndex >= newDecks.length
-            ) {
+            if (deckIndex < 0 || deckIndex >= newDecks.length) {
                 console.error(
                     "deck index out of range",
                     get().currentDeckIndex,

@@ -7,7 +7,7 @@ interface IProps {
     deckId: string;
 }
 
-export default function ProfileDeckControls({ deckId }: IProps) {
+export default function DeckControls({ deckId }: IProps) {
     const userId = auth.currentUser?.uid;
 
     if (!userId) return null;

@@ -3,7 +3,7 @@ import NoDecks from "@/public/NoDecks.png";
 import { deleteUserDeck, getUserDecks } from "@/utils/database/firebaseMethods";
 import ProfileHeader from "@/components/Profile/ProfileHeader";
 import { cookies } from "next/headers";
-import ProfileDeck from "@/components/Profile/ProfileDeck";
+import Deck from "@/components/Decks/Deck";
 
 export default async function page() {
     const cookieStore = await cookies();
@@ -19,9 +19,10 @@ export default async function page() {
                         <h1 className="font-clash-regular">Your decks</h1>
                         <ul className="w-full flex flex-col items-center justify-center mx-auto gap-2">
                             {decks.map((deck, deckIndex) => (
-                                <ProfileDeck
+                                <Deck
                                     deck={deck}
                                     deckIndex={deckIndex}
+                                    controls
                                     key={deck.id ?? deckIndex}
                                 />
                             ))}

@@ -6,7 +6,7 @@ interface IProps {
     slotIndex: number;
 }
 
-export default function ProfileDeckCard({ src, slotIndex }: IProps) {
+export default function DeckCard({ src, slotIndex }: IProps) {
     return (
         <li className="cursor-pointer">
             {src ? (
