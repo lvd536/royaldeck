@@ -18,7 +18,11 @@ export default function ProfileDeckControls({ deckId }: IProps) {
                 width={35}
                 height={35}
                 className="p-2 bg-surface-2 rounded-md hover:bg-surface-2/70 transition-bg transition-text duration-300 text-red-400 hover:text-red-600"
-                onClick={() => deleteUserDeck(userId, deckId)}
+                onClick={() =>
+                    deleteUserDeck(userId, deckId).then(() =>
+                        window.location.reload(),
+                    )
+                }
             />
         </div>
     );
