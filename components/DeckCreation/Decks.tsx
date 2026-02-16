@@ -25,6 +25,7 @@ export default function Decks() {
                     <input
                         type="text"
                         className="font-clash-regular outline-0"
+                        maxLength={20}
                         value={deck.name}
                         onChange={(e) =>
                             handleChangeName(e.target.value, deckIndex)

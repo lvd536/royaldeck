@@ -12,6 +12,7 @@ export default async function Home() {
             <div className="flex flex-col gap-2 w-full p-2 bg-surface-2 rounded-lg">
                 <input
                     type="text"
+                    maxLength={100}
                     className="w-full font-clash-regular sm:text-sm p-2 rounded-lg outline-0 bg-surface"
                     placeholder="Choose your deck, add a comment and share it!"
                 />
