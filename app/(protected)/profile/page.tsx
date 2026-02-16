@@ -1,6 +1,6 @@
 import Image from "next/image";
 import NoDecks from "@/public/NoDecks.png";
-import { deleteUserDeck, getUserDecks } from "@/utils/database/firebaseMethods";
+import { getUserDecks } from "@/utils/database/firebaseMethods";
 import ProfileHeader from "@/components/Profile/ProfileHeader";
 import { cookies } from "next/headers";
 import Deck from "@/components/Decks/Deck";

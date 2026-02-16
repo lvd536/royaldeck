@@ -1,17 +1,16 @@
-"use client";
 import Image from "next/image";
 import elixir from "@/public/elixir.png";
 import cycle from "@/public/cycle.png";
 import { ICustomDeck } from "@/stores/cardCreationStore";
 import DeckCard from "./DeckCard";
 import DeckControls from "./DeckControls";
-import { User } from "firebase/auth";
+import CreatorCredits from "./CreatorCredits";
 
 interface IProps {
     deck: ICustomDeck;
     deckIndex: number;
     controls?: boolean;
-    currentUser?: User | null;
+    showCredits?: boolean;
     onClick?: () => void;
 }
 
@@ -19,7 +18,7 @@ export default function Deck({
     deck,
     deckIndex,
     controls,
-    currentUser,
+    showCredits,
     onClick,
 }: IProps) {
     return (
@@ -72,29 +71,7 @@ export default function Deck({
                             <p>{deck.cycle}</p>
                         </div>
                     </div>
-                    {currentUser && (
-                        <div className="flex items-center gap-2">
-                            {currentUser.photoURL ? (
-                                <Image
-                                    src={currentUser.photoURL}
-                                    alt="user avatar"
-                                    width={14}
-                                    height={14}
-                                    className="w-7 h-7 rounded-full"
-                                />
-                            ) : (
-                                <div className="font-clash-regular flex items-center justify-center p-4 w-7 h-7 rounded-full bg-surface">
-                                    {currentUser.email
-                                        ?.split("@")[0][0]
-                                        .toUpperCase()}
-                                </div>
-                            )}
-                            <h1 className="text-sm font-clash-regular">
-                                {currentUser.displayName ??
-                                    currentUser.email?.split("@")[0]}
-                            </h1>
-                        </div>
-                    )}
+                    {showCredits && <CreatorCredits creatorId={deck.uid!} />}
                 </div>
                 {controls && <DeckControls deckId={deck.id} />}
             </div>

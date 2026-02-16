@@ -4,19 +4,18 @@ import { useScrollPosition } from "@/hooks/useScrollPosition";
 import { ICustomDeck } from "@/stores/cardCreationStore";
 import { useEffect, useState } from "react";
 import Deck from "../Decks/Deck";
-import { auth } from "@/utils/database/firebase";
+import { User } from "firebase/auth";
 
 interface IProps {
     decks?: ICustomDeck[];
+    deckCreator?: User | null;
 }
 
-export default function DeckList({ decks }: IProps) {
+export default function DeckList({ decks, deckCreator }: IProps) {
     const [currentDecks, setCurrentDecks] = useState<ICustomDeck[] | null>(
         null,
     );
     const scrollY = useScrollPosition();
-
-    const currentUser = auth.currentUser;
 
     if (!decks) return null;
 
@@ -40,7 +39,7 @@ export default function DeckList({ decks }: IProps) {
                     <Deck
                         deck={deck}
                         deckIndex={deckIndex}
-                        currentUser={currentUser}
+                        showCredits
                         key={deck.id ?? deckIndex}
                     />
                 ))}

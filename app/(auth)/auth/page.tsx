@@ -7,7 +7,7 @@ import { useState } from "react";
 import SignIn from "@/components/Auth/SignIn";
 import SignUp from "@/components/Auth/SignUp";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "@/utils/database/firebase";
+import { auth } from "@/lib/firebase";
 
 export default function page() {
     const [signIn, setSignIn] = useState<boolean>(false);

@@ -1,4 +1,4 @@
-import { auth } from "@/utils/database/firebase";
+import { auth } from "@/lib/firebase";
 import { sendDeck } from "@/utils/database/firebaseMethods";
 import { CardResponse } from "@varandas/clash-royale-api/lib/interfaces";
 import { create } from "zustand";
@@ -20,6 +20,7 @@ export interface ICustomDeck {
     cards: Record<number, string>;
     isPublished: boolean;
     description?: string;
+    uid?: string;
 }
 
 interface ICardCreationStore {

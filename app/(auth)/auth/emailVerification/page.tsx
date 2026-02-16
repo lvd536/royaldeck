@@ -1,5 +1,5 @@
 "use client";
-import { auth } from "@/utils/database/firebase";
+import { auth } from "@/lib/firebase";
 import { sendEmailVerification } from "firebase/auth";
 import { useEffect, useState } from "react";
 

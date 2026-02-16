@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { auth } from "@/utils/database/firebase";
+import { auth } from "@/lib/firebase";
 import { LogOut } from "lucide-react";
 
 export default function ProfileHeader() {

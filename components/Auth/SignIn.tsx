@@ -1,7 +1,7 @@
 "use client";
 import { Mail, KeyRound } from "lucide-react";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { auth } from "@/utils/database/firebase";
+import { auth } from "@/lib/firebase";
 import {
     createUserWithEmailAndPassword,
     sendEmailVerification,

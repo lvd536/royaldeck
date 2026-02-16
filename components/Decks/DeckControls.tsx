@@ -1,5 +1,5 @@
 "use client";
-import { auth } from "@/utils/database/firebase";
+import { auth } from "@/lib/firebase";
 import { deleteUserDeck } from "@/utils/database/firebaseMethods";
 import { Trash } from "lucide-react";
 

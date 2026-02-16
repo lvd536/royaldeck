@@ -1,9 +1,10 @@
-import { db } from "./firebase";
+import { db } from "../../lib/firebase";
 import {
     addDoc,
     collection,
     deleteDoc,
     doc,
+    getDoc,
     getDocs,
     query,
     setDoc,
@@ -99,4 +100,12 @@ export async function deleteUserDeck(deckId: string) {
     const deckRef = doc(db, "decks", deckId);
 
     await deleteDoc(deckRef);
+}
+
+export async function getDeckCreatorData(uid: string) {
+    const userDoc = await getDoc(
+        doc(db, "users", "feQe7aNRCfhrTLH5tYnja9OXeui1"),
+    );
+
+    return userDoc.data();
 }
