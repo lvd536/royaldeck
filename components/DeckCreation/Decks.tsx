@@ -24,7 +24,7 @@ export default function Decks() {
                 >
                     <input
                         type="text"
-                        className="font-clash-regular outline-0"
+                        className="max-md:text-sm font-clash-regular outline-0"
                         maxLength={20}
                         value={deck.name}
                         onChange={(e) =>
@@ -39,23 +39,23 @@ export default function Decks() {
                     />
                     <div className="flex items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
-                            <div className="flex items-center font-clash-regular text-sm">
+                            <div className="flex items-center font-clash-regular max-md:text-[11px] text-sm">
                                 <Image
                                     src={elixir}
                                     alt="elixir icon"
                                     width={35}
                                     height={35}
-                                    className="w-10 h-auto"
+                                    className="max-md:w-7 w-10 h-auto"
                                 />
                                 <p>{deck.elixir}</p>
                             </div>
-                            <div className="flex items-center font-clash-regular text-sm gap-2">
+                            <div className="flex items-center font-clash-regular max-md:text-[11px] text-sm gap-2">
                                 <Image
                                     src={cycle}
                                     alt="cycle icon"
                                     width={25}
                                     height={25}
-                                    className="w-5 h-auto"
+                                    className="max-md:w-4 w-5 h-auto"
                                 />
                                 <p>{deck.cycle}</p>
                             </div>
@@ -64,13 +64,13 @@ export default function Decks() {
                             <Trash
                                 width={35}
                                 height={35}
-                                className="p-2 bg-surface rounded-md hover:bg-surface/70 transition-bg transition-text duration-300 text-red-400 hover:text-red-600"
+                                className="max-md:w-7 max-md:h-auto max-md:p-1 p-2 bg-surface rounded-md hover:bg-surface/70 transition-bg transition-text duration-300 text-red-400 hover:text-red-600"
                                 onClick={() => handleDeleteDeck(deck.id)}
                             />
                             <SendHorizonal
                                 width={35}
                                 height={35}
-                                className="p-2 bg-surface rounded-md hover:bg-surface/70 transition-bg duration-300 text-green-500 hover:text-green-400"
+                                className="max-md:w-7 max-md:h-auto max-md:p-1 p-2 bg-surface rounded-md hover:bg-surface/70 transition-bg duration-300 text-green-500 hover:text-green-400"
                                 onClick={() => handlePublishDeck(deck.id)}
                             />
                         </div>

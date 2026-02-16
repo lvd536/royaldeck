@@ -33,16 +33,25 @@ export default function DeckList({ decks, deckCreator }: IProps) {
     }, [scrollY]);
 
     return (
-        <ul className="flex flex-col gap-2 w-full p-2 bg-surface-2 rounded-lg">
-            {currentDecks &&
-                currentDecks.map((deck, deckIndex) => (
-                    <Deck
-                        deck={deck}
-                        deckIndex={deckIndex}
-                        showCredits
-                        key={deck.id ?? deckIndex}
-                    />
-                ))}
-        </ul>
+        <>
+            {decks.length >= 1 ? (
+                <ul className="flex flex-col gap-2 w-full p-2 bg-surface-2 rounded-lg">
+                    {currentDecks &&
+                        currentDecks.map((deck, deckIndex) => (
+                            <Deck
+                                deck={deck}
+                                deckIndex={deckIndex}
+                                showCredits
+                                key={deck.id ?? deckIndex}
+                            />
+                        ))}
+                </ul>
+            ) : (
+                <div className="flex w-full h-60 items-center justify-center text-center text-md sm:text-xl md:text-2xl font-clash-regular rounded-lg bg-surface-2 text-foreground/75 p-2">
+                    There are no decks here yet, but you can already publish
+                    yours!
+                </div>
+            )}
+        </>
     );
 }

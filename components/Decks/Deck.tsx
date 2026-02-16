@@ -26,7 +26,9 @@ export default function Deck({
             className="flex flex-col bg-surface rounded-lg p-2"
             onClick={onClick}
         >
-            <h1 className="font-clash-regular text-center">{deck.name}</h1>
+            <h1 className="max-md:text-xs font-clash-regular text-center">
+                {deck.name}
+            </h1>
             <ul className="flex items-center justify-center">
                 {Object.entries(deck.cards).map(([key, valueStr]) => {
                     const slotIndex = Number(key);
@@ -43,30 +45,30 @@ export default function Deck({
                 })}
             </ul>
             {deck.description && (
-                <p className="text-xs font-clash-regular p-2 bg-surface-2 rounded-lg mb-2 mx-auto">
+                <p className="max-md:text-[11px] text-xs font-clash-regular p-2 bg-surface-2 rounded-lg mb-2 mx-auto">
                     {deck.description}
                 </p>
             )}
             <div className="flex items-center justify-between gap-4">
                 <div className="flex w-full items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
-                        <div className="flex items-center font-clash-regular text-sm">
+                        <div className="flex items-center font-clash-regular max-md:text-[11px] text-sm">
                             <Image
                                 src={elixir}
                                 alt="elixir icon"
                                 width={35}
                                 height={35}
-                                className="w-10 h-auto"
+                                className="max-md:w-7 w-10 h-auto"
                             />
                             <p>{deck.elixir}</p>
                         </div>
-                        <div className="flex items-center font-clash-regular text-sm gap-2">
+                        <div className="flex items-center font-clash-regular max-md:text-[11px] text-sm gap-2">
                             <Image
                                 src={cycle}
                                 alt="cycle icon"
                                 width={25}
                                 height={25}
-                                className="w-5 h-auto"
+                                className="max-md:w-4 w-5 h-auto"
                             />
                             <p>{deck.cycle}</p>
                         </div>

@@ -44,7 +44,7 @@ export default function PostDeck({ decks }: IProps) {
                     <input
                         type="text"
                         maxLength={100}
-                        className="w-full font-clash-regular sm:text-sm p-2 rounded-md outline-0 bg-surface"
+                        className="w-full font-clash-regular max-md:text-[11px] text-sm p-2 rounded-md outline-0 bg-surface"
                         placeholder="Choose your deck, add a comment and share it!"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}

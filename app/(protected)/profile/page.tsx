@@ -14,9 +14,11 @@ export default async function page() {
         <div className="flex flex-col w-full h-full mt-2 px-[10%] md:px-[20%] gap-2">
             <ProfileHeader />
             <div className="w-full rounded-lg p-2 bg-surface-2">
-                {decks ? (
+                {decks && decks.length >= 1 ? (
                     <>
-                        <h1 className="font-clash-regular">Your decks</h1>
+                        <h1 className="max-md:text-sm font-clash-regular">
+                            Your decks
+                        </h1>
                         <ul className="w-full flex flex-col items-center justify-center mx-auto gap-2">
                             {decks.map((deck, deckIndex) => (
                                 <Deck
