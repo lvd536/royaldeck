@@ -7,10 +7,10 @@ import Deck from "../Decks/Deck";
 import { auth } from "@/utils/database/firebase";
 
 interface IProps {
-    userDecks?: ICustomDeck[];
+    decks?: ICustomDeck[];
 }
 
-export default function DeckList({ userDecks }: IProps) {
+export default function DeckList({ decks }: IProps) {
     const [currentDecks, setCurrentDecks] = useState<ICustomDeck[] | null>(
         null,
     );
@@ -18,19 +18,19 @@ export default function DeckList({ userDecks }: IProps) {
 
     const currentUser = auth.currentUser;
 
-    if (!userDecks) return null;
+    if (!decks) return null;
 
     useEffect(() => {
-        setCurrentDecks(userDecks.slice(0, 10));
+        setCurrentDecks(decks.slice(0, 10));
     }, []);
 
     useEffect(() => {
         if (
             currentDecks &&
-            window.screenY * 0.8 > scrollY &&
-            userDecks.length > currentDecks.length
+            window.screenY * 0.8 < scrollY &&
+            decks.length > currentDecks.length
         )
-            setCurrentDecks(userDecks.slice(0, currentDecks.length + 10));
+            setCurrentDecks(decks.slice(0, currentDecks.length + 10));
     }, [scrollY]);
 
     return (

@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import elixir from "@/public/elixir.png";
 import cycle from "@/public/cycle.png";
@@ -11,6 +12,7 @@ interface IProps {
     deckIndex: number;
     controls?: boolean;
     currentUser?: User | null;
+    onClick?: () => void;
 }
 
 export default function Deck({
@@ -18,9 +20,13 @@ export default function Deck({
     deckIndex,
     controls,
     currentUser,
+    onClick,
 }: IProps) {
     return (
-        <li className="flex flex-col bg-surface rounded-lg p-2">
+        <li
+            className="flex flex-col bg-surface rounded-lg p-2"
+            onClick={onClick}
+        >
             <h1 className="font-clash-regular text-center">{deck.name}</h1>
             <ul className="flex items-center justify-center">
                 {Object.entries(deck.cards).map(([key, valueStr]) => {
