@@ -1,10 +1,10 @@
 import Image from "next/image";
 import elixir from "@/public/elixir.png";
 import cycle from "@/public/cycle.png";
-import { ICustomDeck } from "@/stores/cardCreationStore";
 import DeckCard from "./DeckCard";
 import DeckControls from "./DeckControls";
 import CreatorCredits from "./CreatorCredits";
+import { ICustomDeck } from "@/types/interfaces";
 
 interface IProps {
     deck: ICustomDeck;

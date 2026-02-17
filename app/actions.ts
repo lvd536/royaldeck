@@ -1,14 +1,6 @@
 "use server";
 import { adminAuth } from "@/lib/firebaseAdmin";
-
-export interface IUserRecord {
-    uid: string;
-    email: string | undefined;
-    displayName: string | undefined;
-    photoURL: string | undefined;
-    emailVerified: boolean;
-    phoneNumber: string | undefined;
-}
+import { IUserRecord } from "@/types/interfaces";
 
 export async function getUserCredits(uid: string) {
     const userRecord = await adminAuth.getUser(uid);
