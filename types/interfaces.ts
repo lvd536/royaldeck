@@ -17,3 +17,9 @@ export interface ICustomDeck {
     description?: string;
     uid?: string;
 }
+
+export interface IDeckLike {
+    id: string;
+    uid: string;
+    deckId: string;
+}

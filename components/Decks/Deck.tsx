@@ -5,12 +5,21 @@ import DeckCard from "./DeckCard";
 import DeckControls from "./DeckControls";
 import CreatorCredits from "./CreatorCredits";
 import { ICustomDeck } from "@/types/interfaces";
+import { Heart } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+    getDeckLikeId,
+    likeDeck,
+    unlikeDeck,
+} from "@/utils/database/firebaseMethods";
 
 interface IProps {
     deck: ICustomDeck;
     deckIndex: number;
     controls?: boolean;
     showCredits?: boolean;
+    canLike?: boolean;
+    uid?: string;
     onClick?: () => void;
 }
 
@@ -19,11 +28,63 @@ export default function Deck({
     deckIndex,
     controls,
     showCredits,
+    canLike,
+    uid,
     onClick,
 }: IProps) {
+    const [isLiked, setIsLiked] = useState<boolean>(false);
+    const [likeId, setLikeId] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!canLike || !uid) return;
+
+        (async () => {
+            const deckLike = (await getDeckLikeId(uid, deck.id)).docs[0];
+
+            if (deckLike && deckLike.exists()) {
+                setIsLiked(true);
+                setLikeId(deckLike.id);
+            } else {
+                setIsLiked(false);
+                setLikeId(null);
+            }
+        })();
+    }, []);
+
+    useEffect(() => {
+        if (!canLike || !uid) return;
+
+        const timeout = setTimeout(() => {
+            if (isLiked && !likeId) {
+                likeDeck(uid, deck.id)
+                    .then((likeId) => {
+                        setIsLiked(true);
+                        setLikeId(likeId);
+                    })
+                    .catch(() => {
+                        setIsLiked(false);
+                        setLikeId(null);
+                    });
+            } else if (!isLiked && likeId) {
+                unlikeDeck(likeId).finally(() => {
+                    setIsLiked(false);
+                    setLikeId(null);
+                });
+            }
+        }, 1000);
+
+        return () => clearTimeout(timeout);
+    }, [isLiked]);
+
+    const handleLike = () => {
+        if (!canLike || !uid) return;
+
+        setIsLiked((prev) => !prev);
+    };
+
     return (
         <li
-            className="flex flex-col bg-surface rounded-lg p-2"
+            className="flex relative flex-col bg-surface rounded-lg p-2"
             onClick={onClick}
         >
             <h1 className="max-md:text-xs font-clash-regular text-center">
@@ -77,6 +138,14 @@ export default function Deck({
                 </div>
                 {controls && <DeckControls deckId={deck.id} />}
             </div>
+            {canLike && uid && (
+                <Heart
+                    width={35}
+                    height={35}
+                    className={`absolute right-2 top-2 p-2 bg-surface-2 hover:bg-surface-2/70 ${isLiked ? "text-green-400 hover:text-green-600" : "text-red-400 hover:text-red-600"} rounded-md transition-bg transition-text duration-300`}
+                    onClick={handleLike}
+                />
+            )}
         </li>
     );
 }

@@ -4,6 +4,7 @@ import { useScrollPosition } from "@/hooks/useScrollPosition";
 import { useEffect, useState } from "react";
 import Deck from "../Decks/Deck";
 import { ICustomDeck } from "@/types/interfaces";
+import { auth } from "@/lib/firebase";
 
 interface IProps {
     decks?: ICustomDeck[];
@@ -13,7 +14,10 @@ export default function DeckList({ decks }: IProps) {
     const [currentDecks, setCurrentDecks] = useState<ICustomDeck[] | null>(
         null,
     );
+
     const scrollY = useScrollPosition();
+
+    const currentUser = auth.currentUser;
 
     useEffect(() => {
         if (decks) setCurrentDecks(decks.slice(0, 10));
@@ -28,7 +32,7 @@ export default function DeckList({ decks }: IProps) {
         )
             setCurrentDecks(decks.slice(0, currentDecks.length + 10));
     }, [scrollY]);
-    if (!decks) return null;
+    if (!decks || !currentUser) return null;
     return (
         <>
             {decks.length >= 1 ? (
@@ -39,6 +43,8 @@ export default function DeckList({ decks }: IProps) {
                                 deck={deck}
                                 deckIndex={deckIndex}
                                 showCredits
+                                canLike={deck.uid !== currentUser.uid}
+                                uid={currentUser.uid}
                                 key={deck.id ?? deckIndex}
                             />
                         ))}
