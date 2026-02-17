@@ -1,7 +1,7 @@
 import { ClashRoyaleAPI } from "@varandas/clash-royale-api";
 
 export const royaleAPI = new ClashRoyaleAPI(
-    process.env.ROYALE_API_TOKEN!,
+    process.env.NEXT_PUBLIC_ROYALE_API_TOKEN!,
     "https://proxy.royaleapi.dev/v1",
 );
 
