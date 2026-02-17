@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import elixir from "@/public/elixir.png";
 import cycle from "@/public/cycle.png";
@@ -84,7 +86,7 @@ export default function Deck({
 
     return (
         <li
-            className="flex relative flex-col bg-surface rounded-lg p-2"
+            className="flex relative flex-col bg-surface rounded-lg hover:ring-1 hover:shadow-lg hover:shadow-indigo-800 hover:ring-indigo-600 transition-[ring, shadow] duration-300 p-2"
             onClick={onClick}
         >
             <h1 className="max-md:text-xs font-clash-regular text-center">

@@ -4,6 +4,7 @@ import Deck from "../Decks/Deck";
 import { useState } from "react";
 import { publishDeck } from "@/utils/database/firebaseMethods";
 import { ICustomDeck } from "@/types/interfaces";
+import DeckAddModal from "./DeckAddModal";
 
 interface IProps {
     decks?: ICustomDeck[] | null;
@@ -79,23 +80,12 @@ export default function PostDeck({ decks }: IProps) {
                     </div>
                 )}
             </div>
-            {isModalOpen && (
-                <div className="fixed flex items-center justify-center w-full h-full bg-black/30 z-1">
-                    <ul className="flex flex-col gap-2 w-3/4 md:w-1/2 p-2 bg-surface-2 rounded-lg z-2">
-                        {decks &&
-                            decks.map((deck, deckIndex) => (
-                                <Deck
-                                    deck={deck}
-                                    deckIndex={deckIndex}
-                                    onClick={() =>
-                                        handleAddDeck(deck, deckIndex)
-                                    }
-                                    key={deck.id ?? deckIndex}
-                                />
-                            ))}
-                    </ul>
-                </div>
-            )}
+            <DeckAddModal
+                decks={decks}
+                isModalOpen={isModalOpen}
+                handleAddDeck={handleAddDeck}
+                onClose={() => setIsModalOpen((prev) => !prev)}
+            />
         </>
     );
 }
