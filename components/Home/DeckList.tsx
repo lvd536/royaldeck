@@ -8,30 +8,28 @@ import { User } from "firebase/auth";
 
 interface IProps {
     decks?: ICustomDeck[];
-    deckCreator?: User | null;
 }
 
-export default function DeckList({ decks, deckCreator }: IProps) {
+export default function DeckList({ decks }: IProps) {
     const [currentDecks, setCurrentDecks] = useState<ICustomDeck[] | null>(
         null,
     );
     const scrollY = useScrollPosition();
 
-    if (!decks) return null;
-
     useEffect(() => {
-        setCurrentDecks(decks.slice(0, 10));
+        if (decks) setCurrentDecks(decks.slice(0, 10));
     }, []);
 
     useEffect(() => {
         if (
+            decks &&
             currentDecks &&
             window.screenY * 0.8 < scrollY &&
             decks.length > currentDecks.length
         )
             setCurrentDecks(decks.slice(0, currentDecks.length + 10));
     }, [scrollY]);
-
+    if (!decks) return null;
     return (
         <>
             {decks.length >= 1 ? (
