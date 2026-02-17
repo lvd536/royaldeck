@@ -1,3 +1,4 @@
+import { ICustomDeck } from "@/types/interfaces";
 import { db } from "../../lib/firebase";
 import {
     addDoc,
@@ -11,7 +12,6 @@ import {
     updateDoc,
     where,
 } from "firebase/firestore";
-import { ICustomDeck } from "@/stores/cardCreationStore";
 
 export async function sendDeck(userId: string | undefined, deck: ICustomDeck) {
     if (!userId) return;

@@ -3,7 +3,6 @@
 import { useScrollPosition } from "@/hooks/useScrollPosition";
 import { useEffect, useState } from "react";
 import Deck from "../Decks/Deck";
-import { User } from "firebase/auth";
 import { ICustomDeck } from "@/types/interfaces";
 
 interface IProps {

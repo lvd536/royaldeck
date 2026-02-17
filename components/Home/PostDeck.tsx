@@ -1,9 +1,9 @@
 "use client";
 import { Plus, X, SendHorizonal } from "lucide-react";
 import Deck from "../Decks/Deck";
-import { ICustomDeck } from "@/stores/cardCreationStore";
 import { useState } from "react";
 import { publishDeck } from "@/utils/database/firebaseMethods";
+import { ICustomDeck } from "@/types/interfaces";
 
 interface IProps {
     decks?: ICustomDeck[] | null;
