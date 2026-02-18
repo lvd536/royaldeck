@@ -11,6 +11,7 @@ import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
     getDeckLikeId,
+    getDeckLikesCount,
     likeDeck,
     unlikeDeck,
 } from "@/utils/database/firebaseMethods";
@@ -34,8 +35,16 @@ export default function Deck({
     uid,
     onClick,
 }: IProps) {
+    const [deckLikes, setDeckLikes] = useState<number>(0);
     const [isLiked, setIsLiked] = useState<boolean>(false);
     const [likeId, setLikeId] = useState<string | null>(null);
+
+    useEffect(() => {
+        (async () => {
+            const likesCount = await getDeckLikesCount(deck.id);
+            setDeckLikes(likesCount);
+        })();
+    }, []);
 
     useEffect(() => {
         if (!canLike || !uid) return;
@@ -82,6 +91,7 @@ export default function Deck({
         if (!canLike || !uid) return;
 
         setIsLiked((prev) => !prev);
+        setDeckLikes((prev) => (isLiked ? prev - 1 : prev + 1));
     };
 
     return (
@@ -134,6 +144,14 @@ export default function Deck({
                                 className="max-md:w-4 w-5 h-auto"
                             />
                             <p>{deck.cycle}</p>
+                        </div>
+                        <div className="flex items-center font-clash-regular max-md:text-[11px] text-sm gap-2">
+                            <Heart
+                                width={25}
+                                height={25}
+                                className="max-md:w-4 w-5 h-auto text-foreground/80"
+                            />
+                            <p>{deckLikes}</p>
                         </div>
                     </div>
                     {showCredits && <CreatorCredits creatorId={deck.uid!} />}

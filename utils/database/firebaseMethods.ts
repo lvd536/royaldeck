@@ -167,3 +167,13 @@ export async function getDeckLikeId(uid: string, deckId: string) {
     );
     return await getDocs(q);
 }
+
+export async function getDeckLikesCount(deckId: string) {
+    const likesRef = collection(db, "likes");
+
+    const q = query(likesRef, where("deckId", "==", deckId));
+
+    const deckLikesQuerySnapshot = await getDocs(q);
+
+    return deckLikesQuerySnapshot.docs.length;
+}
